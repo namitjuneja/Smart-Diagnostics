@@ -1,0 +1,93 @@
+<html>
+
+<head>
+    <title>Retention</title>
+    <!-- <link href="http://fonts.googleapis.com/css?family=Karla:400,700" rel="stylesheet" /> -->
+    <!-- <link href="default.css" rel="stylesheet" type="text/css" media="all" /> -->
+    <!-- <link rel="stylesheet" href="symantic.css"/> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
+
+</head>
+
+
+<body>
+    <div id="wrapper">
+        <div id="header-wrapper">
+            <div id="menu-wrapper">
+                <div id="menu" class="container">
+                    <ul>
+                        <li><a href="#" style="font-size: 1.3em!important; padding: 20px 40px!important;">ThinkIVY Prep</a></li>
+                        <li class="current_page_item"><a href="#">Dashboard</a></li>
+                        <li><a href="#">SMART Diagnostics</a></li>
+                        <li><a href="#">Analytics</a></li>
+                        <li><a href="#">Accelerator</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        
+
+
+        <div class="ui two column grid">
+            <div class="ui two column grid">
+                <div class="right floated column sortable list">
+                    <% @content.each do |ind_content| %>
+                        <li><a href="#" style="padding: 10px 10px!important ;"><table class="ui center aligned red table" id=<%= ind_content["id"] %>>
+                          <thead>
+                            <tr><th class="center aligned">Div element ID<%= ind_content["id"] %></th>
+                          </tr></thead><tbody>
+                            <tr>
+                              <td class="center aligned"><%= ind_content["main_content"] %></td>
+                            </tr>
+                          </tbody>
+                        </table></a></li>
+                    <% end %>
+                </div>
+            </div>
+            <div class="ui two column grid">
+                <div class="left floated column">
+                    
+                </div>
+            </div>
+        </div>
+
+        <script>
+        $("table").click(function(){
+            idn = $(this).attr('id');
+            var clickedElement = this;
+            $.ajax({url: "http://localhost:3000/sec?id=".concat(idn), success: function(result){
+                $(clickedElement).parent().parent().parent().parent().parent().find("div .left").append("<div class='ui secondary segment' style='padding: 10px 10px!important ;'><h3 style='text-align: center;'>Data for element ID".concat(idn, "</h3>",  result.content, "</div>"));
+            }});
+        });
+        </script>
+        <script>
+            $(function() {
+                $('.sortable').sortable();
+                $('.handles').sortable({
+                    handle: 'span'
+                });
+                $('.connected').sortable({
+                    connectWith: '.connected'
+                });
+                $('.exclude').sortable({
+                    items: ':not(.disabled)'
+                });
+            });
+        </script>
+        <style>
+            li
+            {
+            list-style-type: none;
+            }
+        </style>
+
+
+
+
+
+</body>
+
+
+</html>
